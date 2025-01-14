@@ -73,6 +73,10 @@ final deviceTypes = [
   'windows'
 ];
 
+List getSessions() {
+  return mockedSessions;
+}
+
 String getRandomDeviceType() {
   return deviceTypes[random.nextInt(deviceTypes.length)];
 }
@@ -99,16 +103,18 @@ String getAppNameAndVersion() {
   return "$appName $appVersion";
 }
 
-DateTime addRandomTime(DateTime dateTime) {
-  return dateTime
-      .add(Duration(hours: -random.nextInt(5), days: -random.nextInt(2)));
-}
-
-SessionInfo getRandomSessionInfo() {
+SessionInfo getSessionInfo() {
   String deviceType = getRandomDeviceType();
   String device = getRandomDevice(deviceType);
-  DateTime start = addRandomTime(DateTime.now());
-  DateTime lastAccess = addRandomTime(start);
+  DateTime start = DateTime.now().add(Duration(
+      days: random.nextInt(2),
+      hours: random.nextInt(4),
+      minutes: random.nextInt(60)));
+
+  DateTime lastAccess = start.add(Duration(
+      days: random.nextInt(2),
+      hours: random.nextInt(4),
+      minutes: random.nextInt(60)));
 
   return SessionInfo(
       start: start,

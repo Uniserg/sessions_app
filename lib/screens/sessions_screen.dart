@@ -1,45 +1,20 @@
-import 'dart:convert';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:sessions_app/constants/app_constants.dart';
-import 'package:sessions_app/data/session_info.dart';
 import 'package:sessions_app/widgets/device_info.dart';
-import 'package:http/http.dart' as http;
-import 'package:sessions_app/mock/sessions.dart';
+import 'package:sessions_app/constants/sessions.dart';
 
 class SessionScreen extends StatefulWidget {
   final String accessToken;
 
-  SessionScreen({required this.accessToken});
+  const SessionScreen({super.key, required this.accessToken});
 
   @override
-  _SessionScreenState createState() => _SessionScreenState();
+  State<SessionScreen> createState() => _SessionScreenState();
 }
 
 class _SessionScreenState extends State<SessionScreen> {
   List sessions = [];
   Future<void> fetchSessions() async {
-    // TODO: вернуть запрос
-    sessions = mockedSessions;
-
-    // final response = await http.get(
-    //   Uri.parse("$apiServer/sessions"),
-    //   headers: {
-    //     'Authorization': 'Bearer ${widget.accessToken}',
-    //     'Content-Type': 'application/json',
-    //   },
-    // );
-
-    // if (response.statusCode == 200) {
-    //   setState(() {
-    //     sessions = json.decode(response.body);
-    //   });
-    // } else {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(content: Text('Failed to fetch sessions!')),
-    //   );
-    // }
+    sessions = getSessions();
   }
 
   void deleteSession(int index) {}
@@ -106,18 +81,26 @@ class _SessionScreenState extends State<SessionScreen> {
                   child: Text(
                     "Текущая сессия",
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green[700]
-                    ),
+                        fontWeight: FontWeight.bold, color: Colors.green[700]),
                   )),
-              DeviceInfoWidget(sessionInfo: getCurrentSessionInfo()),
-              Divider(),
+              DeviceInfoWidget(
+                sessionInfo: getCurrentSessionInfo(),
+                onDelete: () {
+                  _showConfirmationDialog(context);
+                },
+              ),
+              const Divider(),
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: sessions.length,
                 itemBuilder: (context, index) {
                   return DeviceInfoWidget(
-                    sessionInfo: getRandomSessionInfo(),
+                    sessionInfo: getSessionInfo(),
+                    onDelete: () {
+                      setState(() {
+                        sessions.removeAt(index);
+                      });
+                    },
                   );
                 },
               )

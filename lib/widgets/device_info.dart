@@ -4,6 +4,7 @@ import 'package:sessions_app/data/session_info.dart';
 
 class DeviceInfoWidget extends StatelessWidget {
   final SessionInfo sessionInfo;
+  final void Function()? onDelete;
   final DateFormat dateFormat = DateFormat("dd.MM.yyyy HH:mm");
 
   final Map<String, Image> icons = {};
@@ -20,10 +21,8 @@ class DeviceInfoWidget extends StatelessWidget {
     return icon;
   }
 
-  DeviceInfoWidget({
-    super.key,
-    required this.sessionInfo,
-  });
+  DeviceInfoWidget(
+      {super.key, required this.sessionInfo, required this.onDelete});
 
   void _showConfirmationDialog(BuildContext context) {
     showDialog(
@@ -65,10 +64,6 @@ class DeviceInfoWidget extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Row(
         children: [
-          // CircleAvatar(
-          //   radius: 40,
-          //   foregroundImage: deviceIcon.image
-          // ),
           SizedBox(
               width: 40, child: mapDeviceTypeToIcon(sessionInfo.deviceType)),
           const SizedBox(width: 16.0),
@@ -116,7 +111,6 @@ class DeviceInfoWidget extends StatelessWidget {
               ],
             ),
           ),
-
           IconButton(
             icon: Icon(
               Icons.delete,
