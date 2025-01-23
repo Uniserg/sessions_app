@@ -47,9 +47,12 @@ class DeviceInfoWidget extends StatelessWidget {
                 style: TextStyle(color: Colors.red[700]),
               ),
               onPressed: () {
+                Navigator.of(context).pop();
                 // Действие при подтверждении удаления
                 print('Сессия удалена');
-                Navigator.of(context).pop();
+                if (onDelete != null) {
+                  onDelete!();
+                }
               },
             ),
           ],

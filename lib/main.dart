@@ -12,7 +12,7 @@ class AccountSecurityApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SessionScreen(accessToken: ""),
+      home: LoginScreen(),
     );
   }
 }

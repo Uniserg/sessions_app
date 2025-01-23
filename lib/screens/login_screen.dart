@@ -16,6 +16,25 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   String accessToken = "";
+  String errorMessage = "";
+
+  void loginMock() {
+    String login = usernameController.text;
+    String password = passwordController.text;
+
+    if ((login == 'admin' || login == "admin@mail.ru") && password == 'admin') {
+      Navigator.pop(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SessionScreen(accessToken: accessToken)),
+      );
+    } else {
+      setState(() {
+        errorMessage = "Неверный логин или пароль";
+      }); 
+    }
+  }
 
   Future<void> login() async {
     final body = {
@@ -75,8 +94,15 @@ class _LoginScreenState extends State<LoginScreen> {
               obscureText: true,
             ),
             SizedBox(height: 16),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(
+                errorMessage,
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
             ElevatedButton(
-              onPressed: login,
+              onPressed: loginMock,
               child: Text("Логин"),
             ),
           ],

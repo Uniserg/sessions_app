@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sessions_app/screens/login_screen.dart';
 import 'package:sessions_app/widgets/device_info.dart';
 import 'package:sessions_app/constants/sessions.dart';
 
@@ -47,8 +48,11 @@ class _SessionScreenState extends State<SessionScreen> {
                 style: TextStyle(color: Colors.red[700]),
               ),
               onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()),
+                    (route) => false);
               },
             ),
           ],
@@ -86,7 +90,11 @@ class _SessionScreenState extends State<SessionScreen> {
               DeviceInfoWidget(
                 sessionInfo: getCurrentSessionInfo(),
                 onDelete: () {
-                  _showConfirmationDialog(context);
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()),
+                      (route) => false);
                 },
               ),
               const Divider(),
